@@ -9,9 +9,9 @@
          `(,(intern (string-upcase slot-name) :keyword) . ,slot-name)
         )
      (map 'list #'(lambda (slot)
-            (sb-mop:slot-definition-name slot)
+            (closer-mop:slot-definition-name slot)
                     ) 
-     (sb-mop:class-slots (find-class obj)))))
+     (closer-mop:class-slots (find-class obj)))))
 
 (defun alist-obj (class vals)
   "Return a instance of type CLASS, based on ALIST vals."
@@ -34,8 +34,8 @@
       (if c
         (map 'list 
              #'(lambda (slot)
-                (let ((name (sb-mop:slot-definition-name slot)))
+                (let ((name (closer-mop:slot-definition-name slot)))
                 `( ,(intern (string-upcase name) :keyword) . ,(obj->alist(slot-value obj name)))))
-          (sb-mop:class-slots c))           
+          (closer-mop:class-slots c))           
           obj)))
     ))
