@@ -3,12 +3,9 @@
 # Usage
 ```
 (defclass a ()
-  (
-   (prefix :initform "e-"
+  ((prefix :initform "e-"
            :allocation :class)
-   (a :initform 0)
-   )
-  )
+   (a :initform 0)))
 
 (defclass b (a)
   ((b :initform 1)))

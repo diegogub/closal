@@ -15,9 +15,8 @@
 
 (defun alist->obj (class vals)
   "Return a instance of type CLASS, based on ALIST vals."
-  (let (
-        (m (map-obj-slots class))
-        (obj (make-instance class)))
+  (let ((m (map-obj-slots class))
+    (obj (make-instance class)))
     (if (typep vals 'list)
         (map nil #'(lambda (val)
             (progn
@@ -26,15 +25,9 @@
                   (setf (slot-value obj (cdr slot)) (cdr val))
                   nil
                 ))
-              nil
-              )
-            )
-
-            vals
-          )
-    ) 
-    obj
-  ))
+              nil))
+        vals)) 
+    obj))
 
 (defun obj->alist (obj)
   "Return a ALIST from a obj, CLASS INSTANCE."
@@ -47,14 +40,10 @@
     (array (map (type-of obj) #'obj->alist obj))
     (t (let ((c (find-class (type-of obj) nil)))
       (if c
-        (map 'list #'(lambda (slot)
-                      (let (
-                            (name (sb-mop:slot-definition-name slot))
-                           )
-                          `( ,(intern (string-upcase name) :keyword) . ,(obj->alist(slot-value obj name)))
-                        ))
+        (map 'list 
+             #'(lambda (slot)
+                (let ((name (sb-mop:slot-definition-name slot)))
+                `( ,(intern (string-upcase name) :keyword) . ,(obj->alist(slot-value obj name)))))
           (sb-mop:class-slots c))           
-
-          obj
-      )))
+          obj)))
     ))
