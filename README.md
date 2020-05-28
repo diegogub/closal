@@ -1,7 +1,7 @@
 # closal
 
 # Usage
-```
+```lisp
 (defclass a ()
   ((prefix :initform "e-"
            :allocation :class)
