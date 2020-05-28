@@ -10,9 +10,9 @@
 (defclass b (a)
   ((b :initform 1)))
 
-(obj->alist (make-instance 'b))
+(obj-alist (make-instance 'b))
 
-(obj->alist (alist->obj 'b (cl-json:decode-json-from-string "{ \"a\" : true }")))
+(obj-alist (alist-obj 'b (cl-json:decode-json-from-string "{ \"a\" : true }")))
 
 ```
 

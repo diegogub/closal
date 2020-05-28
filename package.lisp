@@ -3,5 +3,5 @@
 (defpackage #:closal
   (:use #:cl)
   (:export :map-obj-slots
-           :alist->obj
-           :obj->alist))
+           :alist-obj
+           :obj-alist))

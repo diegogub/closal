@@ -10,26 +10,19 @@
         )
      (map 'list #'(lambda (slot)
             (sb-mop:slot-definition-name slot)
-               ) 
+                    ) 
      (sb-mop:class-slots (find-class obj)))))
 
-(defun alist->obj (class vals)
+(defun alist-obj (class vals)
   "Return a instance of type CLASS, based on ALIST vals."
   (let ((m (map-obj-slots class))
     (obj (make-instance class)))
     (if (typep vals 'list)
-        (map nil #'(lambda (val)
-            (progn
-              (let ((slot (assoc (car val) m)))
-                (if slot
-                  (setf (slot-value obj (cdr slot)) (cdr val))
-                  nil
-                ))
-              nil))
-        vals)) 
+        (loop :for (key . value) :in vals
+      :when (assoc key m) :do (setf (slot-value obj (cdr (assoc key m))) value))) 
     obj))
 
-(defun obj->alist (obj)
+(defun obj-alist (obj)
   "Return a ALIST from a obj, CLASS INSTANCE."
   (typecase obj
     (cons  obj)
