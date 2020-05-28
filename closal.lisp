@@ -37,7 +37,6 @@
     (number obj)
     (list  (map 'list #'obj->alist obj))
     (vector (map 'vector #'obj->alist obj))
-    (array (map (type-of obj) #'obj->alist obj))
     (t (let ((c (find-class (type-of obj) nil)))
       (if c
         (map 'list 
