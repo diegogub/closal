@@ -21,10 +21,6 @@
     (if (typep vals 'list)
         (map nil #'(lambda (val)
             (progn
-              (print val)
-              (print m)
-              (print (cdr val))
-              (print (assoc (car val) m))
               (let ((slot (assoc (car val) m)))
                 (if slot
                   (setf (slot-value obj (cdr slot)) (cdr val))
