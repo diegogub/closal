@@ -36,7 +36,6 @@
     (t (let ((c (find-class (type-of obj) nil)))
       (if c
         (remove-if #'(lambda (item)
-                       (print (type-of (car item)))
                        (if (find (car item) omit)
                            t
                            nil)) (map 'list 
