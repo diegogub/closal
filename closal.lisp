@@ -22,8 +22,11 @@
       :when (assoc key m) :do (setf (slot-value obj (cdr (assoc key m))) value))) 
     obj))
 
-(defun obj-alist (obj)
-  "Return a ALIST from a obj, CLASS INSTANCE."
+(defun filter (l key)
+  )
+
+(defun obj-alist (obj &key (omit '()))
+  "Return a ALIST from a obj, CLASS INSTANCE. omit keywork can be use to remove some slots from resulting list"
   (typecase obj
     (cons  obj)
     (string obj)
@@ -32,10 +35,14 @@
     (vector (map 'vector #'obj-alist obj))
     (t (let ((c (find-class (type-of obj) nil)))
       (if c
-        (map 'list 
+        (remove-if #'(lambda (item)
+                       (print (type-of (car item)))
+                       (if (find (car item) omit)
+                           t
+                           nil)) (map 'list 
              #'(lambda (slot)
                 (let ((name (closer-mop:slot-definition-name slot)))
-                `( ,(intern (string-upcase name) :keyword) . ,(obj-alist(slot-value obj name)))))
-          (closer-mop:class-slots c))           
-          obj)))
-    ))
+                `( ,(intern (string-upcase name) :keyword) . ,(obj-alist(slot-value obj name)))
+                  ))
+          (closer-mop:class-slots c)))           
+          obj)))))
