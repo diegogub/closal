@@ -17,7 +17,7 @@
   "Return a instance of type CLASS, based on ALIST vals."
   ;; finalize class
   (progn 
-    (closer-mop:finalize-inheritance (find-class class))
+    (closer-mop:ensure-finalized (find-class class))
     (let ((m (map-obj-slots class))
       (obj (make-instance class)))
       (if (typep vals 'list)
