@@ -15,15 +15,15 @@
 
 (defun alist-obj (class vals)
   "Return a instance of type CLASS, based on ALIST vals."
-  (let ((m (map-obj-slots class))
-    (obj (make-instance class)))
-    (if (typep vals 'list)
-        (loop :for (key . value) :in vals
-      :when (assoc key m) :do (setf (slot-value obj (cdr (assoc key m))) value))) 
-    obj))
-
-(defun filter (l key)
-  )
+  ;; finalize class
+  (progn 
+    (closer-mop:finalize-inheritance (find-class class))
+    (let ((m (map-obj-slots class))
+      (obj (make-instance class)))
+      (if (typep vals 'list)
+          (loop :for (key . value) :in vals
+        :when (assoc key m) :do (setf (slot-value obj (cdr (assoc key m))) value))) 
+      obj)))
 
 (defun obj-alist (obj &key (omit '()))
   "Return a ALIST from a obj, CLASS INSTANCE. omit keywork can be use to remove some slots from resulting list"
