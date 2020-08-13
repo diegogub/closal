@@ -22,7 +22,12 @@
       (obj (make-instance class)))
       (if (typep vals 'list)
           (loop :for (key . value) :in vals
-        :when (assoc key m) :do (setf (slot-value obj (cdr (assoc key m))) value))) 
+        :when (if (typep key 'string) 
+                (assoc (intern (string-upcase key) "KEYWORD") m)
+                (assoc key m)) :do (progn
+                                      (if (typep key 'string) 
+                                       (setf (slot-value obj (cdr (assoc (intern (string-upcase key) "KEYWORD") m))) value)
+                                       (setf (slot-value obj (cdr (assoc key m))) value))))) 
       obj)))
 
 (defun obj-alist (obj &key (omit '()))
